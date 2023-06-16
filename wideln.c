@@ -1,5 +1,7 @@
-// Sample program to draw geometric widelines
-//
+/*-------------------------------------------------------
+   WIDELN.C -- Sample program to draw geometric widelines
+  ------------------------------------------------------*/
+
 
 #define INCL_32
 #define INCL_GPI
@@ -14,7 +16,7 @@ PFNWP   pfnwpFrame;
 
 #define WIDELINE_CLASSNAME "WIDELINE"
 
-MRESULT EXPENTRY ClientWndProc( HWND hwnd ,USHORT msg ,MPARAM mp1 ,MPARAM mp2 );
+MRESULT EXPENTRY ClientWndProc( HWND hwnd ,ULONG msg ,MPARAM mp1 ,MPARAM mp2 );
 VOID DrawPolyLine( HPS hps, PPOINTL pptlStart, LONG idShape );
 VOID DrawWideline( HPS hps, PPOINTL pptlStart );
 VOID DrawWideline2( HWND hwnd, PPOINTL pptlStart );
@@ -23,7 +25,7 @@ LONG lLineEnd  = LINEEND_DEFAULT;
 LONG lLineJoin = LINEJOIN_DEFAULT;
 LONG idShape   = IDM_RIGHTANGLE;
 
-int cdecl main(VOID)
+int main(VOID)
 {
 
    HMQ hmq;
@@ -34,21 +36,21 @@ int cdecl main(VOID)
                            FCF_TASKLIST   | FCF_TITLEBAR      | FCF_SYSMENU |
                            FCF_SIZEBORDER | FCF_MINMAX        | FCF_MENU ;
 
-   hab = WinInitialize( (USHORT)NULL );
+   hab = WinInitialize( 0 );
 
    hmq=WinCreateMsgQueue( hab,0 );
 
    WinRegisterClass( hab
-                   , WIDELINE_CLASSNAME
+                   , (PCSZ) WIDELINE_CLASSNAME
                    , (PFNWP)ClientWndProc
                    , (ULONG)CS_SIZEREDRAW
-                   , (USHORT)256 );
+                   , (ULONG)256 );
 
    hwndFrame = WinCreateStdWindow( HWND_DESKTOP
                                  ,  0UL
                                  ,  &flCreateFlags
-                                 ,  WIDELINE_CLASSNAME
-                                 ,  "Wideline"
+                                 ,  (PCSZ) WIDELINE_CLASSNAME
+                                 , (PCSZ) "Wideline"
                                  ,  WS_VISIBLE
                                  ,  (HMODULE)0
                                  ,  ID_PIN
@@ -79,7 +81,7 @@ int cdecl main(VOID)
 //  Client window procedure.
 //
 // -------------------------------------------------------------------------
-MRESULT EXPENTRY ClientWndProc(HWND hwnd, USHORT msg, MPARAM mp1, MPARAM mp2)
+MRESULT EXPENTRY ClientWndProc(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
 {
 
    switch (msg)
@@ -187,6 +189,7 @@ MRESULT EXPENTRY ClientWndProc(HWND hwnd, USHORT msg, MPARAM mp1, MPARAM mp2)
        return( WinDefWindowProc( hwnd, msg, mp1, mp2 )) ;
      }
    }
+   return 0;
 }
 
 VOID DrawPolyLine( HPS hps, PPOINTL pptlStart, LONG idShape )
@@ -305,6 +308,3 @@ VOID DrawWideline2( HWND hwnd, PPOINTL pptlStart )
   WinReleasePS( hwnd );
 
 }
-
-
-

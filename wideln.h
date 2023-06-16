@@ -1,3 +1,7 @@
+/*------------------------
+   WIDELN.H header file
+  ------------------------*/
+
 #define ID_PIN      100
 
 #define IDM_RESUME 900

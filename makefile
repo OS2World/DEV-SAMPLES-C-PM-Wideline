@@ -1,15 +1,20 @@
-#-------------------
-# Wideline make file
-#-------------------
+# make makefile
+# 
+# Tools used:
+#  Compile::Resource Compiler
+#  Compile::GNU C
+#  Make: make
+all : wideln.exe
 
-wideln.exe : wideln.obj wideln.def wideln.res wideln.lnk
-     link386 @wideln.lnk
-     rc wideln.res wideln.exe
-     mapsym wideln
+wideln.exe : wideln.obj wideln.def wideln.res
+	gcc -Zomf wideln.obj wideln.def wideln.res -o wideln.exe
+	wrc wideln.res
 
-wideln.obj : wideln.c wideln.h
-     icc /O /Kb /Mp /C /Sm /Ss wideln.c
+wideln.obj : wideln.c 
+	gcc -Wall -Zomf -c -O2 wideln.c -o wideln.obj
 
-wideln.res : wideln.rc wideln.h
-     rc -r wideln.rc
-
+wideln.res : wideln.rc 
+	wrc -r wideln.rc
+
+clean :
+	rm -rf *exe *res *obj *lib
